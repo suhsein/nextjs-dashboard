@@ -1,4 +1,7 @@
 'use client'
+// next는 기본적으로 서버 사이드 렌더링을 한다.
+// 리액트 훅을 내부적으로 사용하게 되는 경우에는, 클라이언트 사이드 렌더링 필요하므로 반드시 use client를 최상단에 붙여줘야 함.
+// 붙이지 않으면 오류 발생한다.
 
 import { UserGroupIcon, HomeIcon, DocumentDuplicateIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
