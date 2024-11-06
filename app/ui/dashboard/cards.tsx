@@ -1,5 +1,6 @@
 import { BanknotesIcon, ClockIcon, UserGroupIcon, InboxIcon } from '@heroicons/react/24/outline'
 import { lusitana } from '@/app/ui/fonts'
+import { fetchCardData } from '@/app/lib/data'
 
 const iconMap = {
   collected: BanknotesIcon,
@@ -9,21 +10,23 @@ const iconMap = {
 }
 
 export default async function CardWrapper() {
+  const { numberOfCustomers, numberOfInvoices, totalPaidInvoices, totalPendingInvoices } =
+    await fetchCardData()
+
   return (
     <>
       {/* NOTE: Uncomment this code in Chapter 9 */}
 
-      {/* <Card title="Collected" value={totalPaidInvoices} type="collected" />
-      <Card title="Pending" value={totalPendingInvoices} type="pending" />
-      <Card title="Total Invoices" value={numberOfInvoices} type="invoices" />
-      <Card
-        title="Total Customers"
-        value={numberOfCustomers}
-        type="customers"
-      /> */}
+      <Card title='Collected' value={totalPaidInvoices} type='collected' />
+      <Card title='Pending' value={totalPendingInvoices} type='pending' />
+      <Card title='Total Invoices' value={numberOfInvoices} type='invoices' />
+      <Card title='Total Customers' value={numberOfCustomers} type='customers' />
     </>
   )
 }
+/**
+ * cards들과 같이 묶어서 보여주고 싶은 경우 각각이 streaming 되면 사용자가 어지럽게 느낄 수 있음 => wrapper로 묶기
+ */
 
 export function Card({
   title,

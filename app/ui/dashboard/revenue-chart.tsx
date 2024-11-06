@@ -1,7 +1,7 @@
 import { generateYAxis } from '@/app/lib/utils'
 import { CalendarIcon } from '@heroicons/react/24/outline'
 import { lusitana } from '@/app/ui/fonts'
-import { Revenue } from '@/app/lib/definitions'
+import { fetchRevenue } from '@/app/lib/data'
 
 // This component is representational only.
 // For data visualization UI, check out:
@@ -9,9 +9,11 @@ import { Revenue } from '@/app/lib/definitions'
 // https://www.chartjs.org/
 // https://airbnb.io/visx/
 
-export default async function RevenueChart({ revenue }: { revenue: Revenue[] }) {
+export default async function RevenueChart() {
+  const revenue = await fetchRevenue() // <Suspense/> 로 감싸게 되면서, 컴포넌트 밖이 아닌 컴포넌트 내부에서 비동기로 데이터 페칭.
+  // => streaming. 사용자는 데이터 페칭이 완료될 때까지 기다릴 필요가 없음. 대신 fallback UI를 보게 된다.
+
   const chartHeight = 350
-  // NOTE: Uncomment this code in Chapter 7
 
   const { yAxisLabels, topLabel } = generateYAxis(revenue)
 
