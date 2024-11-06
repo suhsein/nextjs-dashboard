@@ -8,6 +8,8 @@ import {
   Revenue,
 } from './definitions'
 import { formatCurrency } from './utils'
+// 서버 컴포넌트 내에서는 직접 DB에 접근하여 sql을 사용해 데이터 페칭하더라도 보안 위험성(database secret exposing) 없음
+// 클라이언트 컴포넌트 내에서는 보안 위험성 존재하므로, 반드시 API를 통해 데이터를 페칭해야 함.
 
 export async function fetchRevenue() {
   try {
