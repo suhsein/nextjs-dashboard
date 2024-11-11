@@ -9,6 +9,7 @@ import {
 } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import { Button } from '@/app/ui/button'
+import { updateInvoice } from '@/app/lib/actions'
 
 export default function EditInvoiceForm({
   invoice,
@@ -17,8 +18,13 @@ export default function EditInvoiceForm({
   invoice: InvoiceForm
   customers: CustomerField[]
 }) {
+  const updateInvoiceWithId = updateInvoice.bind(null, invoice.id)
+  // 1. 넘겨줄 때는 서버 액션의 파라미터에 직접 넣어주는 대신 bind 메서드 사용해서 넘겨주고
+  // 서버 액션에서 받을 때는 파라미터로 받음???
+  // 2. bind 메서드의 파라미터들이 뭔지 이해가 잘 안감.
+
   return (
-    <form>
+    <form action={updateInvoiceWithId}>
       <div className='rounded-md bg-gray-50 p-4 md:p-6'>
         {/* Customer Name */}
         <div className='mb-4'>
@@ -119,3 +125,16 @@ export default function EditInvoiceForm({
     </form>
   )
 }
+
+/**
+ * 서버 액션 호출 시, 클라이언트에서 함수를 직접 실행하는 대신, HTTP 요청을 통해 서버로 전달되어 실행된다.
+ * -> 직렬화 과정에서 문제가 발생할 수 있기 때문에, 서버 액션을 호출할 때 인자로 복잡한 값을 넘겨서는 안 된다.
+ *
+ * 사실 ID는 복잡한 값이 아니기 때문에 넣을 수는 있다고 하는데 어쨌든
+ * => 파라미터 대신 bind 함수 사용하기.
+ */
+
+/**
+ * bind 함수 대신 hidden field를 사용해 값을 넣게 되는 경우
+ * -> 이 또한 동작이 가능하지만, 이러한 경우에 아이디 값이 민감한 정보일 경우에는 html 소스로 노출될 수 있기 때문에 권장하지 않는다.
+ */
